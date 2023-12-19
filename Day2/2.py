@@ -1,8 +1,8 @@
 colors = ["red", "green", "blue"]
-avaliable = {"red": 12, "green": 13, "blue": 14}
-counter = 0
+minColors = {}
+sumOfPower = 0
 
-with open("./Day2/input.txt") as f:
+with open("./Day2/test.txt") as f:
     games = f.readlines()
     
 for i in range(len(games)):
@@ -11,7 +11,7 @@ for i in range(len(games)):
 
 for index, sets in enumerate(games):
     print(f"\n\nGame {index + 1}: {sets}")
-    avaliableSets = 0
+    minColorsInGame = {"red": 0, "green": 0, "blue": 0}
     for i in range(len(sets)):
         set = sets[i].split(", ")
         cubes = {}
@@ -20,17 +20,19 @@ for index, sets in enumerate(games):
                 if color in set_cubes:
                     cubes[color] = set_cubes.strip().removesuffix(f" {color}")
         print(f"\nCubes per set: {cubes}")
-        avaliableColors = 0
+        
+        minColorsInSet = {"red": 0, "green": 0, "blue": 0}
         for color in colors:
             if color in cubes:
-                print(f"{color.upper()}: Avaliable {avaliable[color]} | Cubes {cubes[color]}")
-                if int(cubes[color]) <= avaliable[color]:
-                    avaliableColors += 1
-                    print(f"Color {color} is avaliable")
-        if avaliableColors == len(cubes.keys()):
-            avaliableSets += 1
-    if avaliableSets == len(sets):
-        counter += (index + 1);
-        print(f"Game {index + 1} is valid")
-                
-print(counter)
+                minColorsInSet[color] = max(minColorsInSet[color], int(cubes[color]))
+        print(minColorsInSet)   
+        for color in colors:
+            if color in cubes:
+                minColorsInGame[color] = max(minColorsInGame[color], minColorsInSet[color])
+        print(minColorsInGame)
+    multValue = 0
+    for value in minColorsInGame.values():
+        multValue *= value
+    sumOfPower += multValue
+    
+print(sumOfPower)
