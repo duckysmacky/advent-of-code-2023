@@ -2,7 +2,7 @@ colors = ["red", "green", "blue"]
 minColors = {}
 sumOfPower = 0
 
-with open("./Day2/test.txt") as f:
+with open("./Day2/input.txt") as f:
     games = f.readlines()
     
 for i in range(len(games)):
@@ -30,7 +30,7 @@ for index, sets in enumerate(games):
             if color in cubes:
                 minColorsInGame[color] = max(minColorsInGame[color], minColorsInSet[color])
         print(minColorsInGame)
-    multValue = 0
+    multValue = 1
     for value in minColorsInGame.values():
         multValue *= value
     sumOfPower += multValue
